@@ -51,13 +51,13 @@ DSC_NO = 0
 DISTANCE_12 = 87.
 SHEAR_INTERVAL_NOM = 95.;       SHEAR_INTERVAL_MEAN = 95.;       SHEAR_INTERVAL_COV = 0;       SHEAR_INTERVAL_DISTR = 'deterministic';
 BAR_TYPE = 'deformed'
-# geometric properties for shear
-COVER_NOM = 38.0;                COVER_MEAN = 38.0;                COVER_COV = 0.20;             COVER_DISTR = 'normal';                       
-DS_REGION1_NOM = 12.7;           DS_REGION1_MEAN = 12.7;           DS_REGION1_COV = 0.02;        DS_REGION1_DISTR = 'normal';
-DS_REGION2_NOM = 12.7;           DS_REGION2_MEAN = 12.7;           DS_REGION2_COV = 0.02;        DS_REGION2_DISTR = 'normal';
-REGION1_NO = 2
-REGION2_NO = 0
-DISTANCE_12 = 0
+## geometric properties for shear
+#COVER_NOM = 38.0;                COVER_MEAN = 38.0;                COVER_COV = 0.20;             COVER_DISTR = 'normal';                       
+#DS_REGION1_NOM = 12.7;           DS_REGION1_MEAN = 12.7;           DS_REGION1_COV = 0.02;        DS_REGION1_DISTR = 'normal';
+#DS_REGION2_NOM = 12.7;           DS_REGION2_MEAN = 12.7;           DS_REGION2_COV = 0.02;        DS_REGION2_DISTR = 'normal';
+#REGION1_NO = 2
+#REGION2_NO = 0
+#DISTANCE_12 = 0
 # material properties
 LAMBDA_FC = 1    # factor for light weight concrete, for normal concrete LAMBDA_FC = 1,
 ECU_NOM = 0.0035;                ECU_MEAN = 0.0035;                ECU_COV = 0.0035;             ECU_DISTR = 'deterministic';

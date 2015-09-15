@@ -15,11 +15,11 @@ from pyre import *
 import time
 import datetime
 
-DATAFILE_PATH = os.path.join(os.path.abspath('./'), 'data', 'no_evidence_shear')
+#DATAFILE_PATH = os.path.join(os.path.abspath('./'), 'data', 'no_evidence_shear')
 #DATAFILE_PATH = os.path.join(os.path.abspath('./'), 'data', 'evidence_condition_state_shear')
 
 #DATAFILE_PATH = os.path.join(os.path.abspath('./'), 'data', 'no_evidence_flexure')
-#DATAFILE_PATH = os.path.join(os.path.abspath('./'), 'data', 'evidence_condition_state_flexure')
+DATAFILE_PATH = os.path.join(os.path.abspath('./'), 'data', 'evidence_condition_state_flexure')
 
 #DATAFILE_PATH = os.path.join(os.path.abspath('./'), 'data', 'evidence_ini_crk_shear')
 #DATAFILE_PATH = os.path.join(os.path.abspath('./'), 'data', 'evidence_half_cell_shear')
@@ -37,7 +37,7 @@ def corrosionMC():
     n_iter = 1
     # seed=1 for flexure with evidence; seed=2 for shear with evidence
     # seed=3 for flexure w/o evidence; seed=4 for shear w/o evidence
-    np.random.seed(4)
+    np.random.seed(1)
 
     chloride_sums = np.zeros(1)
     corrosion_state_sums = np.zeros(1)
