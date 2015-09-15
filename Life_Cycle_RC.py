@@ -453,18 +453,18 @@ def corrosionMC():
         print 'Warning: accumulated weight sum is smaller than ' + str(SUM_WEIGHT) 
         
     ## save data to binary files 
-    np.save(os.path.join(DATAFILE_PATH,'chloride_history.npy'), chloride_data)
-    np.save(os.path.join(DATAFILE_PATH,'corrosion_state_history.npy'), corrosion_state_data)
-    np.save(os.path.join(DATAFILE_PATH,'corrosion_rate_history.npy'), corrosion_rate_data)
-    np.save(os.path.join(DATAFILE_PATH,'mean_corrosion_rate_history.npy'), mean_corrosion_rate_data)
-    np.save(os.path.join(DATAFILE_PATH,'residual_diameter_history.npy'), residual_diameter_data)
-    np.save(os.path.join(DATAFILE_PATH,'radial_pressure_history.npy'), radial_pressure_data)
-    np.save(os.path.join(DATAFILE_PATH,'crack_initiation_history.npy'), crack_initiation_data)
-    np.save(os.path.join(DATAFILE_PATH,'crack_width_history.npy'), crack_width_data)
-    np.save(os.path.join(DATAFILE_PATH,'diffusion_crack_history.npy'), diffusion_crack_data)
-    np.save(os.path.join(DATAFILE_PATH,'rc_flexure_history.npy'), rc_flexure_data)
-    np.save(os.path.join(DATAFILE_PATH,'rc_shear_history.npy'), rc_shear_data)
-    np.save(os.path.join(DATAFILE_PATH,'likelihood_weighting.npy'), likelihood_weighting_data)
+    #np.save(os.path.join(DATAFILE_PATH,'chloride_history.npy'), chloride_data)
+    #np.save(os.path.join(DATAFILE_PATH,'corrosion_state_history.npy'), corrosion_state_data)
+    #np.save(os.path.join(DATAFILE_PATH,'corrosion_rate_history.npy'), corrosion_rate_data)
+    #np.save(os.path.join(DATAFILE_PATH,'mean_corrosion_rate_history.npy'), mean_corrosion_rate_data)
+    #np.save(os.path.join(DATAFILE_PATH,'residual_diameter_history.npy'), residual_diameter_data)
+    #np.save(os.path.join(DATAFILE_PATH,'radial_pressure_history.npy'), radial_pressure_data)
+    #np.save(os.path.join(DATAFILE_PATH,'crack_initiation_history.npy'), crack_initiation_data)
+    #np.save(os.path.join(DATAFILE_PATH,'crack_width_history.npy'), crack_width_data)
+    #np.save(os.path.join(DATAFILE_PATH,'diffusion_crack_history.npy'), diffusion_crack_data)
+    #np.save(os.path.join(DATAFILE_PATH,'rc_flexure_history.npy'), rc_flexure_data)
+    #np.save(os.path.join(DATAFILE_PATH,'rc_shear_history.npy'), rc_shear_data)
+    #np.save(os.path.join(DATAFILE_PATH,'likelihood_weighting.npy'), likelihood_weighting_data)
     
     
     ## calculate mean and stds
