@@ -74,22 +74,22 @@ gcov_shear = lambda x: gcov_func(x, gcov_shear_popt[0], gcov_shear_popt[1], gcov
 gd_array = np.array([gd_flexure, gd_shear])
 gcov_array = np.array([gcov_flexure, gcov_shear])
 
-# compare
-nb = raw_input('if continue?')
-if nb == 'y' or nb == 'Y':
-    print 'continue analysis'
-else:
-    plt.plot(service_time, gt_flex, 'bo',
-            service_time, gt_shear, 'rs',
-            service_time, gd_flexure(service_time), 'b-',
-            service_time, gd_shear(service_time), 'r-')
-    plt.figure()
-    plt.plot(service_time, at_flex, 'bo',
-            service_time, at_shear, 'rs',
-            service_time, gcov_flexure(service_time), 'b-',
-            service_time, gcov_shear(service_time), 'r-')
-    plt.show()
-    sys.exit(1)
+## compare
+#nb = raw_input('if continue?')
+#if nb == 'y' or nb == 'Y':
+    #print 'continue analysis'
+#else:
+    #plt.plot(service_time, gt_flex, 'bo',
+            #service_time, gt_shear, 'rs',
+            #service_time, gd_flexure(service_time), 'b-',
+            #service_time, gd_shear(service_time), 'r-')
+    #plt.figure()
+    #plt.plot(service_time, at_flex, 'bo',
+            #service_time, at_shear, 'rs',
+            #service_time, gcov_flexure(service_time), 'b-',
+            #service_time, gcov_shear(service_time), 'r-')
+    #plt.show()
+    #sys.exit(1)
 
 # initial peaks
 corrTarget = np.eye(2)
