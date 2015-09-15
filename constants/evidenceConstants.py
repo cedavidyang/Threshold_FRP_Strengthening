@@ -33,11 +33,11 @@ NO_CRK_YR = 48
 IS_CRK_YR = 50
 
 
-# for shear
-CS1_TO_CS2 = 8
-CS2_TO_CS3 = 20
-CS3_TO_CS4 = 34
-EVIDENCE_END_YR = 50
+## for shear
+#CS1_TO_CS2 = 8
+#CS2_TO_CS3 = 20
+#CS3_TO_CS4 = 34
+#EVIDENCE_END_YR = 50
 
 ## for flexure
 #CS1_TO_CS2 = 10
