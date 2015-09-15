@@ -58,6 +58,36 @@ def comparePfs():
     shear_pf0 = np.load(os.path.join(os.path.abspath('./'), 'data', 'reliability', 'no_evidence', 'shear', 'results_parallel.npz'))['pf']
     sys_corr_pf0 = np.load(os.path.join(os.path.abspath('./'), 'data', 'reliability', 'no_evidence', 'system_correlated', 'results_parallel.npz'))['pf']
     sys_indp_pf0 = np.load(os.path.join(os.path.abspath('./'), 'data', 'reliability', 'no_evidence', 'system_indp', 'results_parallel.npz'))['pf']
+
+    flex_pf51 = (flex_pf[time_array==60]-flex_pf[time_array==50])/10.+flex_pf[time_array==50]
+    shear_pf51 = (shear_pf[time_array==60]-shear_pf[time_array==50])/10.+shear_pf[time_array==50]
+    sys_corr_pf51 = (sys_corr_pf[time_array==60]-sys_corr_pf[time_array==50])/10.+sys_corr_pf[time_array==50]
+    sys_indp_pf51 = (sys_indp_pf[time_array==60]-sys_indp_pf[time_array==50])/10.+sys_indp_pf[time_array==50]
+    flex_pf = np.insert(flex_pf, np.where(time_array==50)[0][0]+1, flex_pf51)
+    shear_pf = np.insert(shear_pf, np.where(time_array==50)[0][0]+1, shear_pf51)
+    sys_corr_pf = np.insert(sys_corr_pf, np.where(time_array==50)[0][0]+1, sys_corr_pf51)
+    sys_indp_pf = np.insert(sys_indp_pf, np.where(time_array==50)[0][0]+1, sys_indp_pf51)
+    
+    flex_pf051 = (flex_pf0[time_array==60]-flex_pf0[time_array==50])/10.+flex_pf0[time_array==50]
+    shear_pf051 = (shear_pf0[time_array==60]-shear_pf0[time_array==50])/10.+shear_pf0[time_array==50]
+    sys_corr_pf051 = (sys_corr_pf0[time_array==60]-sys_corr_pf0[time_array==50])/10.+sys_corr_pf0[time_array==50]
+    sys_indp_pf051 = (sys_indp_pf0[time_array==60]-sys_indp_pf0[time_array==50])/10.+sys_indp_pf0[time_array==50]
+    flex_pf0 = np.insert(flex_pf0, np.where(time_array==50)[0][0]+1, flex_pf051)
+    shear_pf0 = np.insert(shear_pf0, np.where(time_array==50)[0][0]+1, shear_pf051)
+    sys_corr_pf0 = np.insert(sys_corr_pf0, np.where(time_array==50)[0][0]+1, sys_corr_pf051)
+    sys_indp_pf0 = np.insert(sys_indp_pf0, np.where(time_array==50)[0][0]+1, sys_indp_pf051)
+
+    time_array = np.insert(time_array, np.where(time_array==50)[0][0]+1, time_array[time_array==50]+1)
+
+    flex_pf[time_array>50] = 1. - (1.-flex_pf[time_array>50])/(1.-flex_pf[time_array==50])
+    shear_pf[time_array>50] = 1. - (1.-shear_pf[time_array>50])/(1.-shear_pf[time_array==50])
+    sys_corr_pf[time_array>50] = 1. - (1.-sys_corr_pf[time_array>50])/(1.-sys_corr_pf[time_array==50])
+    sys_indp_pf[time_array>50] = 1. - (1.-sys_indp_pf[time_array>50])/(1.-sys_indp_pf[time_array==50])
+
+    flex_pf0[time_array>50] = 1. - (1.-flex_pf0[time_array>50])/(1.-flex_pf0[time_array==50])
+    shear_pf0[time_array>50] = 1. - (1.-shear_pf0[time_array>50])/(1.-shear_pf0[time_array==50])
+    sys_corr_pf0[time_array>50] = 1. - (1.-sys_corr_pf0[time_array>50])/(1.-sys_corr_pf0[time_array==50])
+    sys_indp_pf0[time_array>50] = 1. - (1.-sys_indp_pf0[time_array>50])/(1.-sys_indp_pf0[time_array==50])
     
     # sys_indp_pf_2 = 1. - (1.- flex_pf) * (1. - shear_pf)
     
@@ -83,12 +113,12 @@ def comparePfs():
                 arrowprops=dict(arrowstyle="-|>", connectionstyle='arc3', facecolor='k', shrinkB=0))
     ax.annotate('', xy=(90, 2.83e-5), xytext=(75.5, 9.3e-8),
                 arrowprops=dict(arrowstyle="-", connectionstyle='arc3', facecolor='k', shrinkA=0))
-    ax.annotate('', xy=(62, 5.6e-7), xytext=(75.5, 9.3e-8),
+    ax.annotate('', xy=(69.64, 3e-7), xytext=(75.5, 9.3e-8),
                 arrowprops=dict(arrowstyle="-", connectionstyle='arc3', facecolor='k', shrinkA=0))
     ax.annotate('without evidence', xy=(65, 5.3e-8), xytext=(65, 5.3e-8))
     ax.annotate('', xy=(30, 2e-6), xytext=(35, 2.5e-5),
                 arrowprops=dict(arrowstyle="-", connectionstyle='arc3', facecolor='k', shrinkA=0))
-    ax.annotate('', xy=(54, 6.7e-7), xytext=(35, 2.5e-5),
+    ax.annotate('', xy=(60.07, 2.7385e-7), xytext=(35, 2.5e-5),
                 arrowprops=dict(arrowstyle="-", connectionstyle='arc3', facecolor='k', shrinkA=0))
     ax.annotate('with evidence', xy=(23, 3.8e-5), xytext=(23, 3.8e-5))
 
