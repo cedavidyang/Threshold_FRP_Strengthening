@@ -130,13 +130,13 @@ class MainSmp(object):
                     #ccdf_smps = lambda t: self.failAtT(t, rm, rv)
                     #ccdf_smps = np.vectorize(ccdf_smps)
                     
-                    # # serial system with correlated Ml and Vl
-                    # #print "SystemWithCorrelated"
-                    # ccdf_smps = lambda t: 1. - sl.cdf( np.minimum( (rm*gm(t)*(covm**gcovm(t))-sdm)/cm,  (rv*gv(t)*(covv**gcovv(t))-sdv)/cv ) )
+                    #serial system with correlated Ml and Vl
+                    #print "SystemWithCorrelated"
+                    ccdf_smps = lambda t: 1. - sl.cdf( np.minimum( (rm*gm(t)*(covm**gcovm(t))-sdm)/cm,  (rv*gv(t)*(covv**gcovv(t))-sdv)/cv ) )
                 
-                    # serial system with independent Ml and Vl
-                    #print "SystemWithIndependent"
-                    ccdf_smps = lambda t: 1. - sl.cdf( (rm*gm(t)*(covm**gcovm(t))-sdm)/cm ) * sl.cdf( (rv*gv(t)*(covv**gcovv(t))-sdv)/cv )
+                    ## serial system with independent Ml and Vl
+                    ##print "SystemWithIndependent"
+                    #ccdf_smps = lambda t: 1. - sl.cdf( (rm*gm(t)*(covm**gcovm(t))-sdm)/cm ) * sl.cdf( (rv*gv(t)*(covv**gcovv(t))-sdv)/cv )
                 
                     # # component Ml
                     # #print "flexure"
