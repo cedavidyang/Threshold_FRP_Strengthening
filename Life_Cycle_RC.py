@@ -15,10 +15,10 @@ from pyre import *
 import time
 import datetime
 
-DATAFILE_PATH = os.path.join(os.path.abspath('./'), 'data', 'no_evidence_shear')
+#DATAFILE_PATH = os.path.join(os.path.abspath('./'), 'data', 'no_evidence_shear')
 #DATAFILE_PATH = os.path.join(os.path.abspath('./'), 'data', 'evidence_condition_state_shear')
 
-# DATAFILE_PATH = os.path.join(os.path.abspath('./'), 'data', 'no_evidence_flexure')
+DATAFILE_PATH = os.path.join(os.path.abspath('./'), 'data', 'no_evidence_flexure')
 #DATAFILE_PATH = os.path.join(os.path.abspath('./'), 'data', 'evidence_condition_state_flexure')
 
 #DATAFILE_PATH = os.path.join(os.path.abspath('./'), 'data', 'evidence_ini_crk_shear')
