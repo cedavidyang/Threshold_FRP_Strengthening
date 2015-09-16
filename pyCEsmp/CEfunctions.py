@@ -244,16 +244,23 @@ def plotPf():
     time_array = np.arange(RELIABILITY_DT,SERVICE_LIFE+RELIABILITY_DT,RELIABILITY_DT)
     time_array = np.insert(time_array, 0, 1.)
 
-    res_covt_path = os.path.join(os.path.abspath('./'), 'data', 'reliability', 'with_evidence', 'system_indp_covt')
+    res_covt_path = os.path.join(os.path.abspath('./'), 'data', 'reliability', 'with_evidence', 'system_indp')
     res_cov0_path = os.path.join(os.path.abspath('./'), 'data', 'reliability', 'with_evidence',  'system_indp_cov0')
-    res_covmean_path = os.path.join(os.path.abspath('./'), 'data', 'reliability', 'with_evidence',  'system_indp_covmean')
+    #res_covmean_path = os.path.join(os.path.abspath('./'), 'data', 'reliability', 'with_evidence',  'system_indp_covmean')
     
     plt.close('all')
     plt.rc('font', family='serif', size=12)
     # figure 1: compare pf
     res_covt = np.load( os.path.join(res_covt_path, 'results_parallel.npz') )['pf']
     res_cov0 = np.load( os.path.join(res_cov0_path, 'results_parallel.npz') )['pf']
-    res_covmean = np.load( os.path.join(res_covmean_path, 'results_parallel.npz') )['pf']
+    #res_covmean = np.load( os.path.join(res_covmean_path, 'results_parallel.npz') )['pf']
+
+    res_covt51 = (res_covt[time_array==60]-res_covt[time_array==50])/10.+res_covt[time_array==50]
+    res_covt = np.insert(res_covt, np.where(time_array==50)[0][0]+1, res_covt51)
+    res_cov051 = (res_cov0[time_array==60]-res_cov0[time_array==50])/10.+res_cov0[time_array==50]
+    res_cov0 = np.insert(res_cov0, np.where(time_array==50)[0][0]+1, res_cov051)
+    time_array = np.insert(time_array, np.where(time_array==50)[0][0]+1, time_array[time_array==50]+1)
+
     plt.semilogy(time_array[time_array<=100], res_covt[time_array<=100], 'b-')
     plt.semilogy(time_array[time_array<=100], res_cov0[time_array<=100], 'r--')
     # plt.semilogy(time_array, res_covmean, 'g^-')
