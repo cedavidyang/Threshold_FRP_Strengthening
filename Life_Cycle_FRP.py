@@ -60,8 +60,9 @@ def main():
     
     weight_sum = 0
     n_iter = 1
-    # seed=5 for shearU with evidence; seed=6 for shearW with evidence
-    np.random.seed(6)
+    # seed=5 for shearUdegrade with evidence; seed=6 for shearWdegrade with evidence
+    # seed=7 for shearU with evidence; seed=8 for shearW with evidence
+    np.random.seed(7)
         
     chloride_sums = np.zeros(1)
     corrosion_state_sums = np.zeros(1)
