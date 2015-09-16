@@ -109,16 +109,16 @@ def comparePfs():
     ax = plt.gca()
     ax.annotate(r'$\beta_{T}=3.5$ ($p_{f}=2.33 \times 10^{-4}$)', xy=(13.5, 1e-4), xytext=(13.5, 1e-4))
     # ax.plot(73, 2.4e-4,marker='o',ms=20,mfc='none',mec='k', mew=1.5)
-    ax.annotate('Structural repair required', xy=(73, 2.4e-4), xytext=(50, 2.7e-3),
+    ax.annotate('Structural repair required', xy=(76, 2.4e-4), xytext=(50, 2.7e-3),
                 arrowprops=dict(arrowstyle="-|>", connectionstyle='arc3', facecolor='k', shrinkB=0))
     ax.annotate('', xy=(90, 2.83e-5), xytext=(75.5, 9.3e-8),
                 arrowprops=dict(arrowstyle="-", connectionstyle='arc3', facecolor='k', shrinkA=0))
     ax.annotate('', xy=(69.64, 3e-7), xytext=(75.5, 9.3e-8),
                 arrowprops=dict(arrowstyle="-", connectionstyle='arc3', facecolor='k', shrinkA=0))
     ax.annotate('without evidence', xy=(65, 5.3e-8), xytext=(65, 5.3e-8))
-    ax.annotate('', xy=(30, 2e-6), xytext=(35, 2.5e-5),
+    ax.annotate('', xy=(30, 1.55e-6), xytext=(35, 2.5e-5),
                 arrowprops=dict(arrowstyle="-", connectionstyle='arc3', facecolor='k', shrinkA=0))
-    ax.annotate('', xy=(60.07, 2.7385e-7), xytext=(35, 2.5e-5),
+    ax.annotate('', xy=(60.07, 4.4e-7), xytext=(35, 2.5e-5),
                 arrowprops=dict(arrowstyle="-", connectionstyle='arc3', facecolor='k', shrinkA=0))
     ax.annotate('with evidence', xy=(23, 3.8e-5), xytext=(23, 3.8e-5))
 
@@ -129,7 +129,7 @@ def comparePfs():
     #            ['flexure', 'shear', 'system (correlated loads)',
     #             'system (independent loads)'], 
     #            loc='lower right', fontsize=12, frameon=False)
-    plt.xlabel(r'service time (yr)')
+    plt.xlabel(r'service time (year)')
     plt.ylabel(r'Failure probability')
     plt.xlim((0, 101))
              
@@ -268,20 +268,20 @@ def plotPf():
     # plt.semilogy(time_array, res_covmean, 'g^-')
 
     ax = plt.gca()
-    ax.annotate('time-variant COV', xy=(47, 6.19e-6), xytext=(10, 6.94e-5),
+    ax.annotate('time-variant COV', xy=(47, 9.3e-6), xytext=(10, 6.94e-5),
                 arrowprops=dict(arrowstyle="-|>", connectionstyle='arc3', facecolor='k', shrinkB=0))
     # ax.annotate('mean COV', xy=(50, 2.74e-5), xytext=(11, 3.01e-4), 
     #             arrowprops=dict(arrowstyle="-|>", connectionstyle='arc3', facecolor='k', shrinkB=0))
-    ax.annotate('initial constant COV', xy=(62, 1.62e-5), xytext=(34, 2.77e-7),
+    ax.annotate('initial constant COV', xy=(62, 1.2e-5), xytext=(50, 3.05e-7),
                 arrowprops=dict(arrowstyle="-|>", connectionstyle='arc3', facecolor='k', shrinkB=0))
     plt.axhline(y=stats.norm.cdf(-3.5),color='k',ls='-.')
     ax.annotate(r'$\beta_{T}=3.5$ ($p_{f}=2.33 \times 10^{-4}$)', xy=(30, 3e-4), xytext=(30, 3e-4))
-    ax.annotate('', xy=(78, 2.33e-4), xytext=(94, 2.33e-4),
+    ax.annotate('', xy=(76, 2.33e-4), xytext=(91, 2.33e-4),
                 arrowprops=dict(arrowstyle="<|-|>", connectionstyle='arc3', facecolor='k', shrinkA=0, shrinkB=0))
     ax.annotate('strengthening delay', xy=(86, 2.33e-4), xytext=(70, 3.3e-6), 
                 arrowprops=dict(arrowstyle="-", connectionstyle='arc3', facecolor='k', shrinkA=0, shrinkB=0))
     
-    plt.xlabel(r'service time (yr)')
+    plt.xlabel(r'service time (year)')
     plt.ylabel(r'Failure probability')
     # plt.xlim((0, SERVICE_LIFE+2))
     
@@ -289,9 +289,9 @@ def plotPf():
 
     
 def plotResistance():
-    FLEXTURE_NO_EV_DATAFILE_PATH = os.path.join(os.path.abspath('./'), 'data', 'no_evidence')
+    FLEXTURE_NO_EV_DATAFILE_PATH = os.path.join(os.path.abspath('./'), 'data', 'no_evidence_flexure')
     SHEAR_NO_EV_DATAFILE_PATH = os.path.join(os.path.abspath('./'), 'data', 'no_evidence_shear')
-    FLEXTURE_WITH_EV_DATAFILE_PATH = os.path.join(os.path.abspath('./'), 'data', 'evidence_condition_state')
+    FLEXTURE_WITH_EV_DATAFILE_PATH = os.path.join(os.path.abspath('./'), 'data', 'evidence_condition_state_flexure')
     SHEAR_WITH_EV_DATAFILE_PATH = os.path.join(os.path.abspath('./'), 'data', 'evidence_condition_state_shear')
     
     # read degradation data
@@ -446,9 +446,9 @@ def postprocessStrengthening():
     plt.show()
     
 if __name__ == '__main__':
-    plotPf()
-    # postprocessStrengthening()
-    # postprocessSmp(np.array([80, 90, 100]))
-    # plotResistance()
+    #plotPf()
+    #postprocessStrengthening()
+    #postprocessSmp(np.array([80, 90, 100]))
+    plotResistance()
     #comparePfs()
 

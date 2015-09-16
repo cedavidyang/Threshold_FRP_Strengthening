@@ -22,7 +22,7 @@ if __name__ == '__main__':
     rc_shear_mean_history = np.loadtxt(datafile)[21,:]
     rc_shear_std_history = np.loadtxt(datafile)[22,:]
     rc_shear_cov_history = rc_shear_std_history/rc_shear_mean_history
-    datafile = os.path.join(FIG_DATAFILE_PATH, 'no_evidence', 'LWS_results.txt')
+    datafile = os.path.join(FIG_DATAFILE_PATH, 'no_evidence_flexure', 'LWS_results.txt')
     rc_flex_mean_history = np.loadtxt(datafile)[19,:]
     rc_flex_std_history = np.loadtxt(datafile)[20,:]
     rc_flex_cov_history = rc_flex_std_history/rc_flex_mean_history
@@ -38,7 +38,7 @@ if __name__ == '__main__':
     rc_shear_std_condition_state = np.loadtxt(datafile)[22,:]
     rc_shear_cov_condition_state = rc_shear_std_condition_state/rc_shear_mean_condition_state
     # flexure
-    datafile = os.path.join(FIG_DATAFILE_PATH, 'evidence_condition_state', 'LWS_results.txt')
+    datafile = os.path.join(FIG_DATAFILE_PATH, 'evidence_condition_state_flexure', 'LWS_results.txt')
     rc_flex_mean_condition_state = np.loadtxt(datafile)[19,:]
     rc_flex_std_condition_state = np.loadtxt(datafile)[20,:]
     rc_flex_cov_condition_state = rc_flex_std_condition_state/rc_flex_mean_condition_state
@@ -64,7 +64,7 @@ if __name__ == '__main__':
     ax2.plot(service_time[:end_index], rc_flex_cov_condition_state[:end_index], 'b-', label='std (w/o evidence)', linewidth=1.5 )
     ax2.plot(service_time[:end_index], rc_shear_cov_condition_state[:end_index], 'r-', label='std (w/o evidence)', linewidth=1.5 )
     # figure settings
-    ax2.set_xlabel(r'service time (yr)')
+    ax2.set_xlabel(r'service time (year)')
     f.text(0.04, 0.5, r'Normalized resistance $R(t)/R_0$', ha='center', va='center', rotation='vertical')
     #ax1.grid(True)
     #ax2.grid(True)
@@ -79,17 +79,17 @@ if __name__ == '__main__':
                  arrowprops=dict(arrowstyle='-|>', connectionstyle='arc3', facecolor='k', shrinkB=0))
     ax1.annotate('shear (w/o evidence)', xy=(61, 0.922), xytext=(33.8, 0.77),
                  arrowprops=dict(arrowstyle='-|>', connectionstyle='arc3', facecolor='k', shrinkB=0))
-    ax1.annotate('shear (condition state)', xy=(72.2, 0.787), xytext=(63.1, 0.85),
+    ax1.annotate('shear (condition state)', xy=(72.2, 0.790), xytext=(63.1, 0.85),
                  arrowprops=dict(arrowstyle='-|>', connectionstyle='arc3', facecolor='k', shrinkB=0))
     
     ax2.annotate('coefficient of variation', xy=(5, 0.173), bbox=dict(boxstyle="round", fc="w"))
-    ax2.annotate('flexure (w/o evidence)', xy=(94, 0.138), xytext=(68.75, 0.15),
+    ax2.annotate('flexure (condition state)', xy=(70, 0.1383), xytext=(65, 0.152),
                  arrowprops=dict(arrowstyle='-|>', connectionstyle='arc3', facecolor='k', shrinkB=1))
-    ax2.annotate('flexure (condition state)', xy=(61.3, 0.133), xytext=(35.2, 0.146),
+    ax2.annotate('flexure (w/o evidence)', xy=(40, 0.1346), xytext=(35.2, 0.146),
                  arrowprops=dict(arrowstyle='-|>', connectionstyle='arc3', facecolor='k', shrinkB=1))
-    ax2.annotate('shear (condition state)', xy=(74, 0.1667), xytext=(52, 0.176),
+    ax2.annotate('shear (w/o evidence)', xy=(74, 0.1667), xytext=(52, 0.176),
                  arrowprops=dict(arrowstyle='-|>', connectionstyle='arc3', facecolor='k', shrinkB=1))
-    ax2.annotate('shear (w/o evidence)', xy=(11, 0.1515), xytext=(8, 0.164),
+    ax2.annotate('shear (condition state)', xy=(11, 0.1487), xytext=(8, 0.164),
                  arrowprops=dict(arrowstyle='-|>', connectionstyle='arc3', facecolor='k', shrinkB=1))
     
     all_figures.append(f)
