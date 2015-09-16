@@ -152,7 +152,7 @@ ME_SHEAR_FRPW_NOM = 1.0;         ME_SHEAR_FRPW_MEAN = 1.44;        ME_SHEAR_FRPW
 #SFRPV_NOM = 50.;               SFRPV_MEAN = 50.;          SFRPV_COV = 0.;         SFRPV_DISTR = 'deterministic';
 #EM_SHEAR_FORM = 'U'
 
-# shear: year 78
+# shear: year 76
 EFRPV_NOM = 230e3;             EFRPV_MEAN = 230e3;        EFRPV_COV = 0.1;        EFRPV_DISTR = 'lognormal';
 FFRPV_NOM = 3450.;             FFRPV_MEAN = 3900.;        FFRPV_COV = 0.10;       FFRPV_DISTR = 'weibull';
 TFRPV_NOM = 0.166;             TFRPV_MEAN = 0.166;        TFRPV_COV = 0.;         TFRPV_DISTR = 'deterministic';
@@ -162,7 +162,7 @@ FRP_INCLINE_NOM = 90.;         FRP_INCLINE_MEAN = 90.;    FRP_INCLINE_COV = 0.; 
 WFRPV_NOM = 50.;               WFRPV_MEAN = 50.;          WFRPV_COV = 0.;         WFRPV_DISTR = 'deterministic';
 SFRPV_NOM = 100.;              SFRPV_MEAN = 100.;         SFRPV_COV = 0.;         SFRPV_DISTR = 'deterministic';
 EM_FLEX_YR = 100.
-EM_SHEAR_YR = 72.
+EM_SHEAR_YR = 76.
 EM_FLEX_FORM = 'IC'
 EM_SHEAR_FORM = 'W'
 # U-jacket without anchors
