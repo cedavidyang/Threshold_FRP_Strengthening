@@ -260,6 +260,8 @@ def plotPf():
     res_cov051 = (res_cov0[time_array==60]-res_cov0[time_array==50])/10.+res_cov0[time_array==50]
     res_cov0 = np.insert(res_cov0, np.where(time_array==50)[0][0]+1, res_cov051)
     time_array = np.insert(time_array, np.where(time_array==50)[0][0]+1, time_array[time_array==50]+1)
+    res_covt[time_array>50] = 1. - (1.-res_covt[time_array>50])/(1.-res_covt[time_array==50])
+    res_cov0[time_array>50] = 1. - (1.-res_cov0[time_array>50])/(1.-res_cov0[time_array==50])
 
     plt.semilogy(time_array[time_array<=100], res_covt[time_array<=100], 'b-')
     plt.semilogy(time_array[time_array<=100], res_cov0[time_array<=100], 'r--')
@@ -444,9 +446,9 @@ def postprocessStrengthening():
     plt.show()
     
 if __name__ == '__main__':
-    # plotPf()
+    plotPf()
     # postprocessStrengthening()
     # postprocessSmp(np.array([80, 90, 100]))
     # plotResistance()
-    comparePfs()
+    #comparePfs()
 
