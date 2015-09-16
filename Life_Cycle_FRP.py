@@ -49,16 +49,19 @@ def main():
     sfrpdegrade = mat['degradeFrp2Env'].flatten()
     frp_interp1d = interp1d(tdegrade, sfrpdegrade, bounds_error=False, fill_value=sfrpdegrade[-1])
     frp_degrade = lambda t: frp_interp1d(t)
+    #frp_degrade = lambda t: 1.+0.*t
     
     # bonding deterioratio function
     bond_degrade = lambda t: BOND_P1*t**4 + BOND_P2*t**3 + BOND_P3*t**2 + BOND_P4*t + BOND_P5
+    #bond_degrade = lambda t: 1.+0.*t
     
     # Structural age
-    service_time = np.arange(START_AGE+TIME_INTERVAL,END_AGE+TIME_INTERVAL,TIME_INTERVAL) 
+    service_time = np.arange(START_AGE+TIME_INTERVAL,END_AGE+TIME_INTERVAL,TIME_INTERVAL)
     
     weight_sum = 0
     n_iter = 1
-    seed_indx = np.arange(1,55,2)
+    # seed=5 for shearU with evidence; seed=6 for shearW with evidence
+    np.random.seed(6)
         
     chloride_sums = np.zeros(1)
     corrosion_state_sums = np.zeros(1)
@@ -87,41 +90,6 @@ def main():
     likelihood_weighting_data = np.array([])
     
     while weight_sum <= SUM_WEIGHT and n_iter<=MAX_ITER_LW: 
-        ## seeds for sample generation
-        DIFFUSION_REF_SEED = seed_indx[0]**2
-        CONCRETE_COVER_SEED = seed_indx[1]**2
-        SURFACE_CL_SEED = seed_indx[2]**2
-        CRITICAL_CL_SEED = seed_indx[3]**2
-        CONCRETE_RESISTANCE_SEED = seed_indx[4]**2
-        CORROSION_RATE_SEED = seed_indx[5]**2
-        CONCRETE_STRENGTH_SEED = seed_indx[6]**2
-        CONCRETE_MODULUS_SEED = seed_indx[7]**2
-        CONCRETE_TENSION_SEED = seed_indx[8]**2
-        POROUS_LAYER_SEED = seed_indx[9]**2
-        CRACK_WIDTH_SEED = seed_indx[10]**2
-        CRACK_DIFFUSION_SEED = seed_indx[11]**2
-        # flexural resistance
-        ME_FLEX_RC_SEED = seed_indx[12]**2
-        FSY_SEED = seed_indx[13]**2
-        BEAM_WIDTH_SEED = seed_indx[14]**2
-        BEAM_DEPTH_SEED = seed_indx[15]**2
-        FLANGE_WIDTH_SEED = seed_indx[16]**2
-        FLANGE_DEPTH_SEED = seed_indx[17]**2
-        # shear resistance
-        ME_SHEAR_RC_SEED = seed_indx[18]**2
-        SHEAR_DEPTH_SEED = seed_indx[19]**2
-        FSYV_SEED = seed_indx[20]**2
-        SHEAR_INTERVAL_SEED = seed_indx[21]**2
-        # frp-related
-        ME_FLEX_FRP_SEED = seed_indx[22]**2
-        ME_SHEAR_FRP_SEED = seed_indx[23]**2
-        EFRP_SEED = seed_indx[23]**2
-        FFRP_SEED = seed_indx[24]**2
-        EFRPV_SEED = seed_indx[25]**2
-        FFRPV_SEED = seed_indx[26]**2
-        
-        seed_indx = seed_indx + 55
-        
         # history of interest
         chloride_history = np.zeros((service_time.size, N_SMP))
         corrosion_state_history = np.zeros((service_time.size, N_SMP))
@@ -143,37 +111,30 @@ def main():
         ## initial samples
         # reference diffusion coefficient
         ref_diffusion_coefficient = refDiffusionCoefVariable()
-        np.random.seed(DIFFUSION_REF_SEED)
         Drcm_smp = ref_diffusion_coefficient.rv.rvs(size=N_SMP)    # [mm^2/year]
         
         # concrete cover
         concrete_cover = concCoverVariable()   
-        np.random.seed(CONCRETE_COVER_SEED)
         dc_smp = concrete_cover.rv.rvs(size = N_SMP)    # [mm]
         
         # surface chloride
         surface_chloride = surfaceClVariable()
-        np.random.seed(SURFACE_CL_SEED)    
         Cs_smp = surface_chloride.rv.rvs(size = N_SMP)     # [kg/m3]
         
         # critical chloride
         critical_chloride = criticalClVariable()
-        np.random.seed(CRITICAL_CL_SEED)
         Ccr_smp = critical_chloride.rv.rvs(size = N_SMP)
         
         # concrete strength
         compressive_strength = concStrengthVariable()
-        np.random.seed(CONCRETE_STRENGTH_SEED)
         fc_smp = compressive_strength.rv.rvs(size = N_SMP)
         
         # effective concrete elastic modulus
         elastic_modulus = concEffEcVariable()
-        np.random.seed(CONCRETE_MODULUS_SEED)
         Ec_smp = elastic_modulus.rv.rvs(size = N_SMP)
         
         # concrete tensile strength
         tensile_strength = concTensileVariable()
-        np.random.seed(CONCRETE_TENSION_SEED)
         ft_smp = tensile_strength.rv.rvs(size = N_SMP)
         
         # critical radial pressure
@@ -181,73 +142,58 @@ def main():
         
         # porous layer thickness: delta0
         porous_zone = porousLayerThickVariable()
-        np.random.seed(POROUS_LAYER_SEED)
         delta0_smp = porous_zone.rv.rvs(size = N_SMP)
         
         # model error of Rc
         log_rc_var = modelErrorRcVariable()
-        np.random.seed(CONCRETE_RESISTANCE_SEED)
         log_rc_var_smp = log_rc_var.rv.rvs(size=N_SMP)
             
         # model error of icorr
         log_icorr_var = modelErrorIcorrVariable()
-        np.random.seed(CORROSION_RATE_SEED)
         log_icorr_var_smp = log_icorr_var.rv.rvs(size=N_SMP) - np.log(1.08)
         
         # model error of CRACK_K
         crk_var = modelErrorCrackVariable()
-        np.random.seed(CRACK_WIDTH_SEED)
         crk_var_smp = crk_var.rv.rvs(size=N_SMP)
         
         # model error of fw
         Dck_var = modelErrorDiffusionVariable()
-        np.random.seed(CRACK_DIFFUSION_SEED)
         Dck_var_smp = Dck_var.rv.rvs(size=N_SMP)
         
         # model error of flexural strength of RC beams
         ME_flex = modelErrorRCFlexVariable()
-        np.random.seed(ME_FLEX_RC_SEED)
         ME_flex_smp = ME_flex.rv.rvs(size=N_SMP)
         
         # yielding strength of steel
         fy_steel = steelYieldingVariable()
-        np.random.seed(FSY_SEED)
         fy_smp = fy_steel.rv.rvs(size=N_SMP)
         
         # beam width and depth
         beam_width = beamWidthVariable()
-        np.random.seed(BEAM_WIDTH_SEED)
         b_smp = beam_width.rv.rvs(size=N_SMP)
         beam_depth = beamDepthVariable()
-        np.random.seed(BEAM_DEPTH_SEED)
         d_smp = beam_depth.rv.rvs(size=N_SMP)
         
         # flange width and depth
         flange_width = flangeWidthVariable()
-        np.random.seed(FLANGE_WIDTH_SEED)
         bf_smp = flange_width.rv.rvs(size=N_SMP)
         flange_depth = flangeDepthVariable()
-        np.random.seed(FLANGE_DEPTH_SEED)
         hf_smp = flange_depth.rv.rvs(size=N_SMP)
         
         # model error of shear strength of RC beams
         ME_shear = modelErrorRCShearVariable()
-        np.random.seed(ME_SHEAR_RC_SEED)
         ME_shear_smp = ME_shear.rv.rvs(size=N_SMP)
         
         # yielding strength of shear reinforcement
         fyv_steel = shearYieldingVariable()
-        np.random.seed(FSYV_SEED)
         fyv_smp = fyv_steel.rv.rvs(size=N_SMP)
         
         # shear depth
         dv = shearDepthVariable()
-        np.random.seed(SHEAR_DEPTH_SEED)
         dv_smp = dv.rv.rvs(size=N_SMP)
         
         # shear interval
         sv = shearIntervalVariable()
-        np.random.seed(SHEAR_INTERVAL_SEED)
         sv_smp = sv.rv.rvs(size=N_SMP)
         
         
@@ -261,11 +207,9 @@ def main():
         ## FRP-related random variables
         # model error of flexural strengthening
         ME_flex_frp = modelErrorFRPFlexVariable()
-        np.random.seed(ME_FLEX_FRP_SEED)
         ME_flex_frp_smp = ME_flex_frp.rv.rvs(size=N_SMP)
         # model error of shear strengthening
         ME_shear_frp = modelErrorFRPShearVariable()
-        np.random.seed(ME_SHEAR_FRP_SEED)
         ME_shear_frp_smp = ME_shear_frp.rv.rvs(size=N_SMP)
         # material properties
         ecu_smp = ECU_MEAN * np.ones(N_SMP)
@@ -273,11 +217,9 @@ def main():
         fyc_smp = FYC_MEAN * np.ones(N_SMP)
         # flexural strengthening
         Efrp = EfrpVariable()
-        np.random.seed(EFRP_SEED)
         Efrp_smp = Efrp.rv.rvs(size=N_SMP)
         
         ffrp = ffrpVariable()
-        np.random.seed(FFRP_SEED)
         ffrp_smp = ffrp.rv.rvs(size=N_SMP)
         
         tfrp_smp = TFRP_MEAN * np.ones(N_SMP)
@@ -292,11 +234,9 @@ def main():
         
         # shear strengthening
         Efrpv = EfrpShearVariable()
-        np.random.seed(EFRPV_SEED)
         Efrpv_smp = Efrpv.rv.rvs(size=N_SMP)
         
         ffrpv = ffrpShearVariable()
-        np.random.seed(FFRPV_SEED)
         ffrpv_smp = ffrpv.rv.rvs(size=N_SMP)
         
         tfrpv_smp = TFRPV_MEAN * np.ones(N_SMP) 
@@ -616,18 +556,18 @@ def main():
         print 'Warning: accumulated weight sum is smaller than ' + str(SUM_WEIGHT) 
         
     ## save data to binary files 
-    np.save(os.path.join(DATAFILE_PATH,'chloride_history.npy'), chloride_data)
-    np.save(os.path.join(DATAFILE_PATH,'corrosion_state_history.npy'), corrosion_state_data)
-    np.save(os.path.join(DATAFILE_PATH,'corrosion_rate_history.npy'), corrosion_rate_data)
-    np.save(os.path.join(DATAFILE_PATH,'mean_corrosion_rate_history.npy'), mean_corrosion_rate_data)
-    np.save(os.path.join(DATAFILE_PATH,'residual_diameter_history.npy'), residual_diameter_data)
-    np.save(os.path.join(DATAFILE_PATH,'radial_pressure_history.npy'), radial_pressure_data)
-    np.save(os.path.join(DATAFILE_PATH,'crack_initiation_history.npy'), crack_initiation_data)
-    np.save(os.path.join(DATAFILE_PATH,'crack_width_history.npy'), crack_width_data)
-    np.save(os.path.join(DATAFILE_PATH,'diffusion_crack_history.npy'), diffusion_crack_data)
-    np.save(os.path.join(DATAFILE_PATH,'rc_flexure_history.npy'), rc_flexure_data)
-    np.save(os.path.join(DATAFILE_PATH,'rc_shear_history.npy'), rc_shear_data)
-    np.save(os.path.join(DATAFILE_PATH,'likelihood_weighting.npy'), likelihood_weighting_data)
+    #np.save(os.path.join(DATAFILE_PATH,'chloride_history.npy'), chloride_data)
+    #np.save(os.path.join(DATAFILE_PATH,'corrosion_state_history.npy'), corrosion_state_data)
+    #np.save(os.path.join(DATAFILE_PATH,'corrosion_rate_history.npy'), corrosion_rate_data)
+    #np.save(os.path.join(DATAFILE_PATH,'mean_corrosion_rate_history.npy'), mean_corrosion_rate_data)
+    #np.save(os.path.join(DATAFILE_PATH,'residual_diameter_history.npy'), residual_diameter_data)
+    #np.save(os.path.join(DATAFILE_PATH,'radial_pressure_history.npy'), radial_pressure_data)
+    #np.save(os.path.join(DATAFILE_PATH,'crack_initiation_history.npy'), crack_initiation_data)
+    #np.save(os.path.join(DATAFILE_PATH,'crack_width_history.npy'), crack_width_data)
+    #np.save(os.path.join(DATAFILE_PATH,'diffusion_crack_history.npy'), diffusion_crack_data)
+    #np.save(os.path.join(DATAFILE_PATH,'rc_flexure_history.npy'), rc_flexure_data)
+    #np.save(os.path.join(DATAFILE_PATH,'rc_shear_history.npy'), rc_shear_data)
+    #np.save(os.path.join(DATAFILE_PATH,'likelihood_weighting.npy'), likelihood_weighting_data)
     
     
     ## calculate mean and stds
