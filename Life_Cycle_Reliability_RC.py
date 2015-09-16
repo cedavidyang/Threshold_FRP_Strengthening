@@ -31,10 +31,12 @@ service_time = np.loadtxt(flexure_datafile)[0,:]
 flexure_mean_history = np.loadtxt(flexure_datafile)[19,:]
 flexure_std_history = np.loadtxt(flexure_datafile)[20,:]
 flexure_cov_history = flexure_std_history/flexure_mean_history
+#flexure_cov_history = flexure_std_history[0]/flexure_mean_history[0]*np.ones(flexure_std_history.shape)
 # shear strength rc
 shear_mean_history = np.loadtxt(shear_datafile)[21,:]
 shear_std_history = np.loadtxt(shear_datafile)[22,:]
 shear_cov_history = shear_std_history/shear_mean_history
+#shear_cov_history = shear_std_history[0]/shear_mean_history[0]*np.ones(shear_std_history.shape)
 # assume flexural and shear strength follow lognormal
 rm_mean = flexure_mean_history[0]
 rm_stdv = flexure_std_history[0]
