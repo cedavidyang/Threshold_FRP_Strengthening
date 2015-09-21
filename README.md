@@ -12,11 +12,11 @@ Threshold-reliablity-based FRP strengthening of RC bridge girders
 DBN-MC simulation of RC girders:
 -----
 * Things to be checked when switching between flexure and shear analysis:
-1. ```constants/beamConstants.py```: comment/uncomment shear dimensions for
-   flexure and shear analysis, respectively
-2. ```constants/evidenceConstants.py```: appropriate CS transition years
-3. ```Life_Cycle_RC.py```: select right seed and folder to generate the samples
-   and save the results
+    1. ```constants/beamConstants.py```: comment/uncomment shear dimensions for
+    flexure and shear analysis, respectively
+    2. ```constants/evidenceConstants.py```: appropriate CS transition years
+    3. ```Life_Cycle_RC.py```: select right seed and folder to generate the samples
+    and save the results
 
 * Things to be checked when switching between analysis without and with
   evidence:
