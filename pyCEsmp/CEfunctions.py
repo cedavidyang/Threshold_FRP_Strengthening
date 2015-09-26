@@ -1,9 +1,28 @@
 # CE functions
 import os
 import numpy as np
-import scipy.stats as stats
+import matplotlib
+#fig_width = 3.39 # if columns==1 else 6.9 # width in inches
+#golden_mean = (np.sqrt(5)-1.0)/2.0    # Aesthetic ratio
+#fig_height = fig_width*golden_mean # height in inches
+fig_width = 4.1
+fig_height = 3.0
+params = {'backend': 'ps',
+            'text.latex.preamble': ['\usepackage{gensymb}'],
+            'axes.labelsize': 8, # fontsize for x and y labels (was 10)
+            'axes.titlesize': 8,
+            'font.size': 8, # was 10
+            'legend.fontsize': 8, # was 10
+            'xtick.labelsize': 8,
+            'ytick.labelsize': 8,
+            'text.usetex': True,
+            'figure.figsize': [fig_width,fig_height],
+            'font.family': 'serif'
+}
+matplotlib.rcParams.update(params)
 import matplotlib.pyplot as plt
 plt.ion()
+import scipy.stats as stats
 from scipy.optimize import curve_fit
 from scipy.interpolate import interp1d
 
@@ -132,7 +151,62 @@ def comparePfs():
     plt.xlabel(r'service time (year)')
     plt.ylabel(r'Failure probability')
     plt.xlim((0, 101))
-             
+
+def comparePfs2():
+    # compare pf in the conference paper: compare availability and survival
+    time_array = np.arange(RELIABILITY_DT,SERVICE_LIFE+RELIABILITY_DT,RELIABILITY_DT)
+    time_array = np.insert(time_array, 0, 1.)
+    
+    flex_pf = np.load(os.path.join(os.path.abspath('./'), 'data', 'reliability', 'with_evidence', 'flexure', 'results_parallel.npz'))['pf']
+    shear_pf = np.load(os.path.join(os.path.abspath('./'), 'data', 'reliability', 'with_evidence', 'shear', 'results_parallel.npz'))['pf']
+    sys_corr_pf = np.load(os.path.join(os.path.abspath('./'), 'data', 'reliability', 'with_evidence', 'system_correlated', 'results_parallel.npz'))['pf']
+    sys_indp_pf = np.load(os.path.join(os.path.abspath('./'), 'data', 'reliability', 'with_evidence', 'system_indp', 'results_parallel.npz'))['pf']
+    total_flex_pf = np.copy(flex_pf)
+    total_shear_pf = np.copy(shear_pf)
+    total_sys_corr_pf = np.copy(sys_corr_pf)
+    total_sys_indp_pf = np.copy(sys_indp_pf)
+
+    flex_pf51 = (flex_pf[time_array==60]-flex_pf[time_array==50])/10.+flex_pf[time_array==50]
+    shear_pf51 = (shear_pf[time_array==60]-shear_pf[time_array==50])/10.+shear_pf[time_array==50]
+    sys_corr_pf51 = (sys_corr_pf[time_array==60]-sys_corr_pf[time_array==50])/10.+sys_corr_pf[time_array==50]
+    sys_indp_pf51 = (sys_indp_pf[time_array==60]-sys_indp_pf[time_array==50])/10.+sys_indp_pf[time_array==50]
+    flex_pf = np.insert(flex_pf, np.where(time_array==50)[0][0]+1, flex_pf51)
+    shear_pf = np.insert(shear_pf, np.where(time_array==50)[0][0]+1, shear_pf51)
+    sys_corr_pf = np.insert(sys_corr_pf, np.where(time_array==50)[0][0]+1, sys_corr_pf51)
+    sys_indp_pf = np.insert(sys_indp_pf, np.where(time_array==50)[0][0]+1, sys_indp_pf51)
+
+    old_time_array = np.copy(time_array)
+    time_array = np.insert(time_array, np.where(time_array==50)[0][0]+1, time_array[time_array==50]+1)
+
+    flex_pf[time_array>50] = 1. - (1.-flex_pf[time_array>50])/(1.-flex_pf[time_array==50])
+    shear_pf[time_array>50] = 1. - (1.-shear_pf[time_array>50])/(1.-shear_pf[time_array==50])
+    sys_corr_pf[time_array>50] = 1. - (1.-sys_corr_pf[time_array>50])/(1.-sys_corr_pf[time_array==50])
+    sys_indp_pf[time_array>50] = 1. - (1.-sys_indp_pf[time_array>50])/(1.-sys_indp_pf[time_array==50])
+
+    plt.close('all')
+
+    plt.semilogy(time_array[time_array<=100], flex_pf[time_array<=100], 'b-', label="flexural")
+    plt.semilogy(time_array[time_array<=100], shear_pf[time_array<=100], 'g--', label="shear")
+    plt.semilogy(time_array[time_array<=100], sys_corr_pf[time_array<=100], 'r^-', label="system (correlated)")
+    plt.semilogy(time_array[time_array<=100], sys_indp_pf[time_array<=100], 'yv-', label="system (independent)")
+    #plt.semilogy(old_time_array[old_time_array<=100], total_flex_pf[old_time_array<=100], 'b-')
+    #plt.semilogy(old_time_array[old_time_array<=100], total_shear_pf[old_time_array<=100], 'g--')
+    #plt.semilogy(old_time_array[old_time_array<=100], total_sys_corr_pf[old_time_array<=100], 'r^-')
+    #plt.semilogy(old_time_array[old_time_array<=100], total_sys_indp_pf[old_time_array<=100], 'yv-')
+    plt.axhline(y=stats.norm.cdf(-3.5),color='k',ls='dashed')
+
+    ax = plt.gca()
+    ax.annotate(r'$\beta_{T}=3.5$ ($p_{f}=2.33 \times 10^{-4}$)', xy=(13.5, 5e-4), xytext=(13.5, 5e-4))
+    # ax.plot(73, 2.4e-4,marker='o',ms=20,mfc='none',mec='k', mew=1.5)
+    ax.annotate('Structural repair required', xy=(76, 2.4e-4), xytext=(50, 2.7e-3),
+                arrowprops=dict(arrowstyle="-|>", connectionstyle='arc3', facecolor='k', shrinkB=0))
+
+    plt.legend(loc='lower right', fontsize=8, frameon=False)
+    plt.xlabel(r'service time (year)')
+    plt.gcf().subplots_adjust(bottom=0.12) # make room for the xlabel
+    plt.ylabel(r'Failure probability')
+    plt.xlim((0, 101))
+
 def optimalSmpFunc(r_array, smpObject, ti):
     
     if smpObject.getSmpNum() != 1:
@@ -249,7 +323,8 @@ def plotPf():
     #res_covmean_path = os.path.join(os.path.abspath('./'), 'data', 'reliability', 'with_evidence',  'system_indp_covmean')
     
     plt.close('all')
-    plt.rc('font', family='serif', size=12)
+    #plt.rc('font', family='serif', size=12)
+
     # figure 1: compare pf
     res_covt = np.load( os.path.join(res_covt_path, 'results_parallel.npz') )['pf']
     res_cov0 = np.load( os.path.join(res_cov0_path, 'results_parallel.npz') )['pf']
@@ -272,16 +347,17 @@ def plotPf():
                 arrowprops=dict(arrowstyle="-|>", connectionstyle='arc3', facecolor='k', shrinkB=0))
     # ax.annotate('mean COV', xy=(50, 2.74e-5), xytext=(11, 3.01e-4), 
     #             arrowprops=dict(arrowstyle="-|>", connectionstyle='arc3', facecolor='k', shrinkB=0))
-    ax.annotate('initial constant COV', xy=(62, 1.2e-5), xytext=(50, 3.05e-7),
+    ax.annotate('initial constant COV', xy=(52.2, 1.192e-6), xytext=(45, 3.05e-8),
                 arrowprops=dict(arrowstyle="-|>", connectionstyle='arc3', facecolor='k', shrinkB=0))
-    plt.axhline(y=stats.norm.cdf(-3.5),color='k',ls='-.')
-    ax.annotate(r'$\beta_{T}=3.5$ ($p_{f}=2.33 \times 10^{-4}$)', xy=(30, 3e-4), xytext=(30, 3e-4))
+    plt.axhline(y=stats.norm.cdf(-3.5),color='k',ls='--')
+    ax.annotate(r'$\beta_{T}=3.5$ ($p_{f}=2.33 \times 10^{-4}$)', xy=(10, 3e-4), xytext=(10, 3e-4))
     ax.annotate('', xy=(76, 2.33e-4), xytext=(91, 2.33e-4),
                 arrowprops=dict(arrowstyle="<|-|>", connectionstyle='arc3', facecolor='k', shrinkA=0, shrinkB=0))
-    ax.annotate('strengthening delay', xy=(86, 2.33e-4), xytext=(70, 3.3e-6), 
+    ax.annotate('strengthening\ndelay', xy=(86, 2.33e-4), xytext=(70, 3.3e-6), 
                 arrowprops=dict(arrowstyle="-", connectionstyle='arc3', facecolor='k', shrinkA=0, shrinkB=0))
     
     plt.xlabel(r'service time (year)')
+    plt.gcf().subplots_adjust(bottom=0.12) # make room for the xlabel
     plt.ylabel(r'Failure probability')
     # plt.xlim((0, SERVICE_LIFE+2))
     
@@ -405,7 +481,7 @@ def postprocessStrengthening():
     #time_array.sort()
     
     plt.close('all')
-    plt.rc('font', family='serif', size=12)
+    #plt.rc('font', family='serif', size=12)
     
     plt.semilogy(time_array[time_array>=50], sys_indp_pf[time_array>=50], 'b-', label="w/o strengthening")
     plt.semilogy(new_time_array[new_time_array>=50], sys_indp_pf_str1[new_time_array>=50], 'r-', label="U-jacketing w/ anchor")
